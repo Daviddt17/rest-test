@@ -21,17 +21,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -67,18 +56,111 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected Void doInBackground(Void... params)
             {
-                text = RestService.getPost("1");
+                text = JsonPlaceHolderService.getPost("1");
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void result)
             {
-                TextView textView = (TextView) findViewById(R.id.text_view);
+                TextView textView = (TextView) findViewById(R.id.get_text_view);
 
                 if(text != null)
                 {
                     textView.setText(text);
+                }
+                else
+                {
+                    textView.setText("Post was null!");
+                }
+            }
+        }.execute();
+    }
+
+    public void postPost(View view)
+    {
+        new AsyncTask<Void, Void, Void>()
+        {
+            private String resultText;
+
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                resultText = JsonPlaceHolderService.postPost("test title", "this is a post", "1");
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result)
+            {
+                TextView textView = (TextView) findViewById(R.id.post_text_view);
+
+                if(resultText != null)
+                {
+                    textView.setText(resultText);
+                }
+                else
+                {
+                    textView.setText("Post was null!");
+                }
+            }
+        }.execute();
+    }
+
+    public void putPost(View view)
+    {
+        new AsyncTask<Void, Void, Void>()
+        {
+            private String resultText;
+
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                resultText = JsonPlaceHolderService.putPost("1",
+                        "test title 2",
+                        "this is a post 2",
+                        "1");
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result)
+            {
+                TextView textView = (TextView) findViewById(R.id.put_text_view);
+
+                if(resultText != null)
+                {
+                    textView.setText(resultText);
+                }
+                else
+                {
+                    textView.setText("Post was null!");
+                }
+            }
+        }.execute();
+    }
+
+    public void deletePost(View view)
+    {
+        new AsyncTask<Void, Void, Void>()
+        {
+            private String resultText;
+
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                resultText = JsonPlaceHolderService.deletePost("1");
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result)
+            {
+                TextView textView = (TextView) findViewById(R.id.delete_text_view);
+
+                if(resultText != null)
+                {
+                    textView.setText(resultText);
                 }
                 else
                 {
