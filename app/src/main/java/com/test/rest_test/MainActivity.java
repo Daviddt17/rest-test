@@ -1,5 +1,6 @@
 package com.test.rest_test;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -54,5 +56,35 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getPost(View view)
+    {
+        new AsyncTask<Void, Void, Void>()
+        {
+            private String text;
+
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                text = RestService.getPost("1");
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result)
+            {
+                TextView textView = (TextView) findViewById(R.id.text_view);
+
+                if(text != null)
+                {
+                    textView.setText(text);
+                }
+                else
+                {
+                    textView.setText("Post was null!");
+                }
+            }
+        }.execute();
     }
 }
